@@ -1,0 +1,105 @@
+openapi: 3.0.0
+info:
+  title: User API
+  version: 1.0.0
+  description: A simple API for retrieving user data
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /api/users:
+    get:
+      summary: Retrieves a list of all users
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      summary: Adds a new user to the list
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: The created user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /api/users/{id}:
+    get:
+      summary: Retrieves a single user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the user to retrieve
+          schema:
+            type: integer
+      responses:
+        '404':
+          description: The specified user was not found
+        '200':
+          description: The specified user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    put:
+      summary: Updates a user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the user to update
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '404':
+          description: The specified user was not found
+        '200':
+          description: The updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      summary: Deletes a user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the user to delete
+          schema:
+            type: integer
+      responses:
+        '404':
+          description: The specified user was not found
+        '204':
+          description: The user was successfully deleted
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        age:
+          type: integer
+        occupation:
+          type: string
